@@ -1,7 +1,10 @@
-import { Routes, Route, Link } from "react-router-dom"
+import { useState, useRef, useEffect } from "react"
+import { Outlet } from "react-router-dom"
 
-import { useState } from "react"
-import reactLogo from "./assets/react.svg"
+import Form from "react-bootstrap/Form"
+import Menu from "./navigation/Menu"
+import getData from "./api/api"
+
 import "./App.css"
 /* import { Button } from "react-bootstrap" */
 import Button from "react-bootstrap/Button"
@@ -9,7 +12,24 @@ import Button from "react-bootstrap/Button"
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 
 export default function App() {
-	const [count, setCount] = useState(0)
+	const [rawText, setRawText] = useState()
+	const [splitText, setSplitText] = useState()
+	const [responseText, setResponseText] = useState()
+	const fileRef = useRef()
+
+	console.log(rawText)
+	console.log(responseText)
+	useEffect(() => {
+		console.log("RERSS")
+		if (rawText) getData(rawText).then((apiData) => setResponseText(apiData))
+	}, [rawText])
+
+	async function getTexts() {
+		const textData = await fileRef.current.files[0].text()
+		const splitPerRow = await textData.split("\n")
+		setSplitText(splitPerRow)
+		setRawText(textData)
+	}
 
 	const data = [
 		{ name: "Page A", uv: 400, pv: 2400, amt: 2400 },
@@ -19,7 +39,7 @@ export default function App() {
 
 	const renderLineChart = (
 		<LineChart
-			width={800}
+			width={660}
 			height={300}
 			data={data}
 			margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
@@ -34,63 +54,21 @@ export default function App() {
 
 	return (
 		<div className="App">
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="about" element={<About />} />
-			</Routes>
-			<div>
-				<a href="https://vitejs.dev" target="_blank">
-					<img src="/vite.svg" className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://reactjs.org" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.jsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+			<Menu></Menu>
+			<Outlet />
+			<Form.Group onChange={getTexts} controlId="formFile" className="mb-3">
+				<Form.Label>Default file input example</Form.Label>
+				<Form.Control type="file" ref={fileRef} /* as="textarea" */ />
+			</Form.Group>
 			<Button variant="primary">Primary</Button>{" "}
 			<Button variant="secondary">Secondary</Button>{" "}
 			<Button variant="success">Success</Button> <Button variant="warning">Warning</Button>{" "}
 			<Button variant="danger">Danger</Button> <Button variant="info">Info</Button>{" "}
 			<Button variant="light">Light</Button> <Button variant="dark">Dark</Button>{" "}
-			<Button variant="link">Link</Button>
+			<Button variant="link" onClick={() => console.log(responseText)}>
+				Link
+			</Button>
 			{renderLineChart}
 		</div>
-	)
-}
-
-/* export default App */
-
-function Home() {
-	return (
-		<>
-			<main>
-				<h2>Welcome to the homepage!</h2>
-				<p>You can do this, I believe in you.</p>
-			</main>
-			<nav>
-				<Link to="/about">About</Link>
-			</nav>
-		</>
-	)
-}
-
-function About() {
-	return (
-		<>
-			<main>
-				<h2>Who are we?</h2>
-				<p>That feels like an existential question, don't you think?</p>
-			</main>
-			<nav>
-				<Link to="/">Home</Link>
-			</nav>
-		</>
 	)
 }
