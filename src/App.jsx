@@ -12,23 +12,23 @@ import Button from "react-bootstrap/Button"
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 
 export default function App() {
-	const [rawText, setRawText] = useState()
+	const [formText, setFormText] = useState()
 	const [splitText, setSplitText] = useState()
 	const [responseText, setResponseText] = useState()
 	const fileRef = useRef()
 
-	console.log(rawText)
+	console.log(formText)
 	console.log(responseText)
 	useEffect(() => {
-		console.log("RERSS")
-		if (rawText) getData(rawText).then((apiData) => setResponseText(apiData))
-	}, [rawText])
+		console.log("useEffect #1")
+		if (formText) getData(formText).then((apiData) => setResponseText(apiData))
+	}, [formText])
 
 	async function getTexts() {
 		const textData = await fileRef.current.files[0].text()
 		const splitPerRow = await textData.split("\n")
 		setSplitText(splitPerRow)
-		setRawText(textData)
+		setFormText(textData)
 	}
 
 	const data = [
