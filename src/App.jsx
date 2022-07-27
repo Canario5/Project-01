@@ -3,17 +3,14 @@ import { Outlet } from "react-router-dom"
 
 import Form from "react-bootstrap/Form"
 import Menu from "./navigation/Menu"
-import getData from "./api/api"
+import apiData from "./api/api"
 
 import "./App.css"
 /* import { Button } from "react-bootstrap" */
 import Button from "react-bootstrap/Button"
 
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
-
 export default function App() {
 	const [formText, setFormText] = useState()
-	const [splitText, setSplitText] = useState()
 	const [responseText, setResponseText] = useState()
 	const fileRef = useRef()
 
@@ -21,42 +18,29 @@ export default function App() {
 	console.log(responseText)
 	useEffect(() => {
 		console.log("useEffect #1")
-		if (formText) getData(formText).then((apiData) => setResponseText(apiData))
+		/* if (formText) getData(formText).then((apiData) => setResponseText(apiData)) */
 	}, [formText])
 
-	async function getTexts() {
-		const textData = await fileRef.current.files[0].text()
-		const splitPerRow = await textData.split("\n")
-		setSplitText(splitPerRow)
-		setFormText(textData)
+	async function getData(formData) {
+		let data = []
+		for (const textRow of formData) {
+			const returnedData = await apiData(textRow)
+			data = [...data, { origText: textRow, entities: returnedData }]
+		}
+		return data
 	}
 
-	const data = [
-		{ name: "Page A", uv: 400, pv: 2400, amt: 2400 },
-		{ name: "Page B", uv: 210, pv: 1000, amt: 2400 },
-		{ name: "Page c", uv: 325, pv: 2400, amt: 2400 },
-	]
-
-	const renderLineChart = (
-		<LineChart
-			width={660}
-			height={300}
-			data={data}
-			margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-		>
-			<Line type="monotone" dataKey="uv" stroke="#8884d8" />
-			<CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-			<XAxis dataKey="name" />
-			<YAxis />
-			<Tooltip />
-		</LineChart>
-	)
+	async function inputForm() {
+		const textData = await fileRef.current.files[0].text()
+		const splitPerRow = await textData.split("\n")
+		setFormText(splitPerRow)
+	}
 
 	return (
 		<div className="App">
 			<Menu></Menu>
 			<Outlet />
-			<Form.Group onChange={getTexts} controlId="formFile" className="mb-3">
+			<Form.Group onChange={inputForm} controlId="formFile" className="mb-3">
 				<Form.Label>Default file input example</Form.Label>
 				<Form.Control type="file" ref={fileRef} /* as="textarea" */ />
 			</Form.Group>
@@ -68,7 +52,6 @@ export default function App() {
 			<Button variant="link" onClick={() => console.log(responseText)}>
 				Link
 			</Button>
-			{renderLineChart}
 		</div>
 	)
 }
