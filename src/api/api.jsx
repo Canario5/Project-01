@@ -1,53 +1,28 @@
-export default async function getData(rawData) {
+export default async function getData(formData) {
 	try {
-		var myHeaders = new Headers()
+		const myHeaders = new Headers()
+		myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
 		myHeaders.append(
 			"X-TextRazor-Key",
 			"cc2876fc88ae2890241698873d8701611336d5155c2f61783b96c51c"
 		)
-		myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
 
-		var urlencoded = new URLSearchParams()
-		urlencoded.append(
-			"text",
-			"Spain's stricken Bankia expects to sell off its vast portfolio of industrial holdings that includes a stake in the parent company of British Airways and Iberia."
-		)
+		const urlencoded = new URLSearchParams()
+		urlencoded.append("text", formData)
 		urlencoded.append("extractors", "entities")
 
-		var requestOptions = {
+		const requestOptions = {
 			method: "POST",
 			headers: myHeaders,
 			body: urlencoded,
 			redirect: "follow",
 		}
 
-		const res = await fetch("https://api.textrazor.com", requestOptions)
-		/* .then((response) => response.text())
-			.then((result) => console.log(result))
-			.catch((error) => console.log("error", error)) */
-
-		/* const res = await fetch("http://api.textrazor.com", {
-			method: "POST",
-			// mode: "no-cors",
-			body: JSON.stringify({
-				extractors: "entities",
-				//	apiKey: "cc2876fc88ae2890241698873d8701611336d5155c2f61783b96c51c",
-				text: "Spain's stricken Bankia expects to sell off its vast portfolio of industrial holdings that includes a stake in the parent company of British Airways and Iberia.",
-				// text: rawData,
-			}),
-			headers: {
-				//"Accept-encoding": "gzip",
-				Host: "localhost:5173",
-				"X-TextRazor-Key": "cc2876fc88ae2890241698873d8701611336d5155c2f61783b96c51c",
-				"Content-type": "application/x-www-form-urlencoded", //application/x-www-form-urlencoded "application/json; charset=UTF-8"
-			},
-			redirect: "follow",
-			//referrer: "http://api.textrazor.com",
-		}) */
+		const res = await fetch("/api/", requestOptions)
 
 		if (res.status === 413)
 			console.log(`The request was too large (Up to 200kb may be processed per request).`)
-		if (!res.ok) throw new Error(`This is an HTTP error: ${res.status}`) // Není třeba v async try?
+		if (!res.ok) throw new Error(`This is an HTTP error: ${res.status}`)
 
 		console.log(res)
 
@@ -69,6 +44,6 @@ export default async function getData(rawData) {
 
 		return returnedData
 	} catch (err) {
-		console.log(err.message)
+		console.log(err)
 	}
 }
