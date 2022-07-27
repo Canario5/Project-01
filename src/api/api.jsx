@@ -1,4 +1,4 @@
-export default async function getData(formData) {
+export default async function apiData(formData) {
 	try {
 		const myHeaders = new Headers()
 		myHeaders.append("Content-Type", "application/x-www-form-urlencoded")
@@ -24,25 +24,9 @@ export default async function getData(formData) {
 			console.log(`The request was too large (Up to 200kb may be processed per request).`)
 		if (!res.ok) throw new Error(`This is an HTTP error: ${res.status}`)
 
-		console.log(res)
+		const resData = await res.json()
 
-		const returnedData = await res.json()
-
-		/* const matchDates = new Map(
-				data.dates.map((day) => {
-					const matchesPerDay = { home: [], away: [] }
-					day.games.forEach((gamePlayed) => {
-						matchesPerDay.home = [...matchesPerDay.home, gamePlayed.teams.home.team.id]
-						matchesPerDay.away = [...matchesPerDay.away, gamePlayed.teams.away.team.id]
-					})
-
-					return [day.date, matchesPerDay]
-				})
-			) */
-
-		/* localStorage.setItem("schedule", JSON.stringify([...matchDates])) */
-
-		return returnedData
+		return resData.response?.entities
 	} catch (err) {
 		console.log(err)
 	}
