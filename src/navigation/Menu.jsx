@@ -18,9 +18,9 @@ export default function Menu() {
 							<Nav.Link>Home</Nav.Link>
 						</LinkContainer>
 
-						<LinkContainer to="/texts">
+						{/* <LinkContainer to="/texts">
 							<Nav.Link>Texts</Nav.Link>
-						</LinkContainer>
+						</LinkContainer> */}
 
 						<LinkContainer to="/graphs">
 							<Nav.Link>Graphs</Nav.Link>
