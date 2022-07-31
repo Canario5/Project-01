@@ -7,6 +7,7 @@ import apiData from "./api/api"
 
 import "./App.css"
 /* import { Button } from "react-bootstrap" */
+import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
@@ -53,12 +54,11 @@ export default function App() {
 		}
 	}
 
-	function switchTab() {}
-
 	function genEle() {
 		return responseText?.map((item, i) => {
 			const { entities, origText } = item
-			if (!entities) return <div key={i}>{origText}</div>
+			if (!entities)
+				return <TextContent content={origText} elePos={i + 1} key={i}></TextContent>
 
 			let tempText = origText
 			let highlights = ``
@@ -68,8 +68,16 @@ export default function App() {
 				.map((entity, i) => {
 					const { startingPos, endingPos, matchedText } = entity
 
-					// prettier-ignore
-					const insert = <span onClick={()=>console.log("banana")} className="highlight" key={i}>{matchedText}</span>
+					const insert = (
+						<span
+							className="highlight"
+							title={`${entity?.type?.join(", ") ?? "No category found"}`}
+							key={i}
+						>
+							{matchedText}
+						</span>
+					)
+
 					const afterString = tempText.slice(endingPos)
 					tempText = tempText.slice(0, startingPos)
 
@@ -77,11 +85,16 @@ export default function App() {
 					highlights = i === entities.length - 1 ? [tempText, ...merged] : merged
 					return entity
 				})
+				.sort((a, b) => a.startingPos - b.startingPos)
 
 			return (
-				<TextContent content={highlights} entities={sortedEntities} key={i}></TextContent>
+				<TextContent
+					content={highlights}
+					entities={sortedEntities}
+					elePos={i + 1}
+					key={i}
+				></TextContent>
 			)
-			/* return <div key={i}>{highlights}</div> */
 		})
 	}
 
@@ -116,9 +129,15 @@ export default function App() {
 				</Row>
 
 				{/* prettier-ignore */}
-				<div style={{ display: isLoading ? "inline" : "none" }}>
+				<Row style={{ display: isLoading ? "" : "none" }} xs="auto" className="justify-content-center align-items-center">
+				<Spinner animation="border" variant="primary" className="mx-2"/>
 					Loading Please wait...
-				</div>
+				</Row>
+
+				{/* <div style={{ display: isLoading ? "inline" : "inline" }}>
+				<Spinner animation="border" variant="primary" />
+					Loading Please wait...
+				</div> */}
 			</Form.Group>
 
 			<div>{elem}</div>

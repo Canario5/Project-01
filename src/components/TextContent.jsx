@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
@@ -14,8 +16,8 @@ export default function TextContent(props) {
 	const eleEntities = props?.entities?.map((entity, i) => {
 		return (
 			<Tab eventKey={entity.matchedText + i} title={entity.matchedText} key={i}>
-				<Container fluid="md">
-					<Row>
+				<Container fluid="md" className="my-3">
+					<Row className="row-cols-1 row-cols-md-2">
 						<Col>
 							<Col>{`Entity name: ${entity?.matchedText ?? "No name found"}`}</Col>
 							<Col>
@@ -28,22 +30,25 @@ export default function TextContent(props) {
 							<Col>{`Relevance Score: ${entity?.relevanceScore ?? "No score"}`}</Col>
 							<Col>{`Confidence Score: ${entity?.confidenceScore ?? "No score"}`}</Col>
 						</Col>
-						<Col>{`DBPedia types: ${
-							entity?.type?.join(", ") ?? "No categories found"
-						}`}</Col>
+						<Col>{`DBPedia types: ${entity?.type?.join(", ") ?? "No category found"}`}</Col>
 					</Row>
 				</Container>
 			</Tab>
 		)
 	})
 
+	const noEntity = (name) => (
+		<Tab eventKey={`disabled${name}`} title={name} key={`disabled${name}`} disabled></Tab>
+	)
+
 	return (
 		<Card>
-			<Tabs defaultActiveKey="text" id="uncontrolled-tab-example" className="mb-3">
+			<Tabs defaultActiveKey="text" id="uncontrolled-tab-example">
+				{props?.elePos ? noEntity(props.elePos) : ""}
 				<Tab eventKey="text" title="Text">
-					<Card.Title>{props.content}</Card.Title>
+					<Card.Title className="my-4 mx-3 mx-sm-5">{props.content}</Card.Title>
 				</Tab>
-				{eleEntities}
+				{eleEntities ? eleEntities : noEntity("No match")}
 			</Tabs>
 		</Card>
 	)
