@@ -6,20 +6,75 @@
 }
 
 .card {
-	padding: 1em 2em;
-	margin: 0.5em 1.5em;
+	margin: 0.8em 2em;
+	border-radius: 10px 0 10px !important;
+}
+
+.navbar {
+	background-color: transparent;
+	border-bottom: 0.5em solid #fa0f9c;
+	transform: scale(0.95);
+}
+
+.navbar-brand div {
+	background-color: #2e2f2f;
+	transition: 0.5s 0.05s ease-in;
+}
+
+.navbar-brand:hover div {
+	display: block;
+	transform: translateY(7px);
+	transition: 0.5s 0.05s ease-out;
+}
+
+.navbar .nav-link.active {
+	background-color: #7fff00;
+	transform: scale(1);
+}
+
+.navbar .nav-link {
+	transition: transform 0.25s ease-out;
+	transform: scale(0.9);
+	margin-right: 0.5em;
+}
+
+.navbar .nav-link:hover {
+	background-color: #7fff00;
+	transform: scale(1);
+	transition: 0.25s 0.05s ease-in;
+}
+
+.nav-tabs {
+	background-color: lightsteelblue;
+	border-radius: 10px 0 10px;
+}
+
+.nav-tabs > li:first-of-type {
+	position: absolute;
+	background-color: deepskyblue;
+	border-radius: 10px 0 0;
+	padding: 0 10px 0 0;
+}
+
+.nav-tabs > li:nth-of-type(2) {
+	position: relative;
+	margin-left: 41px;
+	z-index: 10;
+	background-color: lightsteelblue;
+	border-radius: 10px 0 0;
 }
 
 .highlight {
 	/* background-image: linear-gradient(to right, #f27121cc, #e94057cc, #8a2387cc); */
 	background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 51%, #56ab2f 100%);
 	border-radius: 5px;
-	padding: 0px 5px 3px;
+	padding: 0px 5px 2px;
+	margin: 2px 0;
 	transition: background-position 0.5s;
 	background-size: 200% auto;
 	transform: rotate(2deg);
 	display: inline-block;
-	cursor: pointer;
+	cursor: help;
 }
 
 .highlight:hover {
