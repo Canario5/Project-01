@@ -6,10 +6,12 @@ import { LinkContainer } from "react-router-bootstrap"
 
 export default function Menu() {
 	return (
-		<Navbar bg="light" expand="lg">
+		<Navbar /* bg="light" */ expand="lg" className="p-0 my-3">
 			<Container>
 				<LinkContainer to="/">
-					<Navbar.Brand>Company</Navbar.Brand>
+					<Navbar.Brand className="py-0">
+						<div className="py-2 px-4 text-light">Company</div>
+					</Navbar.Brand>
 				</LinkContainer>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
@@ -24,6 +26,14 @@ export default function Menu() {
 
 						<LinkContainer to="/graphs">
 							<Nav.Link>Graphs</Nav.Link>
+						</LinkContainer>
+
+						<LinkContainer to="/third">
+							<Nav.Link>Third</Nav.Link>
+						</LinkContainer>
+
+						<LinkContainer to="/fourth">
+							<Nav.Link>Fourth</Nav.Link>
 						</LinkContainer>
 					</Nav>
 				</Navbar.Collapse>
