@@ -2,16 +2,14 @@ import Pagination from "react-bootstrap/Pagination"
 import Row from "react-bootstrap/Row"
 
 export default function PaginationBar(props) {
-	console.log(props)
-
-	if (props?.nPages) return
+	if (!props.nrPages) return
 
 	let active = props.currentPage
 
-	const pageNumbers = [...Array(props.nPages)].map((_item, i) => (
+	const pageNumbers = [...Array(props.nrPages)].map((_item, i) => (
 		<Pagination.Item
 			onClick={() => props.setCurrentPage(i + 1)}
-			key={i + 1}
+			key={i}
 			active={i + 1 === active}
 		>
 			{i + 1}
