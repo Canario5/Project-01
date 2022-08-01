@@ -22,7 +22,7 @@
 }
 
 .navbar-brand:hover div {
-	display: block;
+	box-shadow: 0px -7px 0px 0px darkturquoise;
 	transform: translateY(7px);
 	transition: 0.5s 0.05s ease-out;
 }
@@ -32,6 +32,10 @@
 	transform: scale(1);
 }
 
+/* .navbar .nav-link.active:hover {
+	background-color: #dce1de;
+} */
+
 .navbar .nav-link {
 	transition: transform 0.25s ease-out;
 	transform: scale(0.9);
@@ -39,7 +43,9 @@
 }
 
 .navbar .nav-link:hover {
-	background-color: #7fff00;
+	/* background-color: #7fff00; */
+	background-color: #dce1de;
+
 	transform: scale(1);
 	transition: 0.25s 0.05s ease-in;
 }
@@ -47,6 +53,7 @@
 .nav-tabs {
 	background-color: lightsteelblue;
 	border-radius: 10px 0 10px;
+	border-bottom: 4px solid #fa0f9c;
 }
 
 .nav-tabs > li:first-of-type {
@@ -69,10 +76,10 @@
 	background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 51%, #56ab2f 100%);
 	border-radius: 5px;
 	padding: 0px 5px 2px;
-	margin: 2px 0;
+	margin: 3px 3px;
 	transition: background-position 0.5s;
 	background-size: 200% auto;
-	transform: rotate(2deg);
+	transform: rotate(1deg);
 	display: inline-block;
 	cursor: help;
 }
