@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 
 import Menu from "./navigation/Menu"
 import TextContent from "./components/TextContent"
+import PaginationBar from "./components/PaginationBar"
 import apiData from "./api/api"
 
 import "./App.css"
@@ -11,14 +12,18 @@ import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
-import Pagination from "react-bootstrap/Pagination"
 
 export default function App() {
 	const [formText, setFormText] = useState()
 	const [responseText, setResponseText] = useState()
 	const fileRef = useRef()
-	/* const isLoading = formText && !responseText */
 	const [isLoading, setIsLoading] = useState(false)
+
+	const [currentPage, setCurrentPage] = useState(1)
+	const itemsPerPage = 10
+	const indexOfLastItem = currentPage * itemsPerPage
+	const indexOfFirstItem = indexOfLastItem - itemsPerPage
+	const [nPages, setNPages] = useState()
 
 	useEffect(() => {
 		console.log("useEffect #1")
@@ -29,11 +34,17 @@ export default function App() {
 			})
 	}, [formText])
 
+	useEffect(() => {
+		console.log("useEffect #2")
+		if (!responseText) return
+		setNPages(Math.ceil(responseText.length / itemsPerPage))
+	}, [responseText])
+
 	async function getData(formData) {
 		let data = []
-		for (const textRow of formData) {
+		for (const [i, textRow] of formData.entries()) {
 			const returnedData = await apiData(textRow)
-			data = [...data, { origText: textRow, entities: returnedData }]
+			data = [...data, { origText: textRow, pos: i, entities: returnedData }]
 		}
 		console.log(data)
 		return data
@@ -51,14 +62,21 @@ export default function App() {
 		if (event.type === "contextmenu") {
 			event.preventDefault()
 			fileRef.current.value = null
+			setCurrentPage(1)
+			setNPages(null)
 		}
 	}
 
 	function genEle() {
-		return responseText?.map((item, i) => {
-			const { entities, origText } = item
+		if (!responseText) return
+
+		const currentRange = responseText.slice(indexOfFirstItem, indexOfLastItem)
+		console.log(currentRange)
+
+		return currentRange?.map((item, i) => {
+			const { entities, origText, pos } = item
 			if (!entities)
-				return <TextContent content={origText} elePos={i + 1} key={i}></TextContent>
+				return <TextContent content={origText} elePos={pos + 1} key={i}></TextContent>
 
 			let tempText = origText
 			let highlights = ``
@@ -91,7 +109,7 @@ export default function App() {
 				<TextContent
 					content={highlights}
 					entities={sortedEntities}
-					elePos={i + 1}
+					elePos={pos + 1}
 					key={i}
 				></TextContent>
 			)
@@ -103,7 +121,8 @@ export default function App() {
 	return (
 		<div className="App">
 			<Menu></Menu>
-			<Outlet />
+			{/* 	<Outlet /> */}
+
 			<Form.Group
 				/* onChange={inputForm} */
 
@@ -133,14 +152,17 @@ export default function App() {
 				<Spinner animation="border" variant="primary" className="mx-2"/>
 					Loading Please wait...
 				</Row>
-
-				{/* <div style={{ display: isLoading ? "inline" : "inline" }}>
-				<Spinner animation="border" variant="primary" />
-					Loading Please wait...
-				</div> */}
 			</Form.Group>
 
 			<div>{elem}</div>
+
+			{nPages && (
+				<PaginationBar
+					nPages={nPages}
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+				></PaginationBar>
+			)}
 		</div>
 	)
 }
