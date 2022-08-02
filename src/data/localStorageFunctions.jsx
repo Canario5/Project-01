@@ -1,15 +1,15 @@
 export default function localStorageFunctions() {
-	function saveToLocalStorage(data) {
-		localStorage?.setItem("LS_TextRazor_Texts", JSON.stringify(data))
+	function saveToLocalStorage(data, storageString) {
+		localStorage?.setItem(storageString, JSON.stringify(data))
 	}
 
 	function removeLocalStorage() {
 		localStorage?.removeItem("LS_TextRazor_Texts")
 	}
 
-	function loadFromLocalStorage() {
-		return JSON.parse(localStorage?.getItem("LS_TextRazor_Texts"))
+	function loadFromLocalStorage(storageString) {
+		return JSON.parse(localStorage?.getItem(storageString))
 	}
 
-	return [saveToLocalStorage, removeLocalStorage, loadFromLocalStorage]
+	return { saveToLocalStorage, removeLocalStorage, loadFromLocalStorage }
 }
