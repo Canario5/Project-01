@@ -3,6 +3,8 @@ div.card {
 	--bs-card-border-radius: 10px 0 10px;
 	--bs-card-border-color: #d3d9d6;
 	--bs-card-border-width: 4px;
+	box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 25%);
+	/* box-shadow: 2px 3px 6px 1px rgb(0 0 0 / 25%); */
 }
 
 .nav-tabs {
@@ -24,6 +26,11 @@ div.card {
 	border-radius: 6px 0 0;
 	-webkit-box-shadow: inset -7px 0px 0px 0px #7fff00;
 	box-shadow: inset -7px 0px 0px 0px #7fff00;
+}
+
+.nav-tabs > li:nth-of-type(2) > .active {
+	-webkit-box-shadow: -7px 0px 0px 0px #ab87ff, inset 0px -5px 0px 0px #fa0f9c;
+	box-shadow: -7px 0px 0px 0px #ab87ff, inset 0px -5px 0px 0px #fa0f9c;
 }
 
 .nav-tabs > li:first-of-type button {

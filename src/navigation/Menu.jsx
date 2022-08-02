@@ -12,12 +12,14 @@ export default function Menu() {
 				<Container>
 					<LinkContainer to="/">
 						<Navbar.Brand className="py-0">
-							<div className="py-2 px-4 text-light">Company</div>
+							<div className="pt-2 px-4 text-light" style={{ paddingBottom: "0.65rem" }}>
+								Company
+							</div>
 						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
-						<Nav className="me-auto">
+						<Nav className="me-auto mt-2 mt-lg-0">
 							<LinkContainer to="/">
 								<Nav.Link>Load text</Nav.Link>
 							</LinkContainer>

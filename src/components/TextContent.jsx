@@ -10,7 +10,6 @@ import Tab from "react-bootstrap/Tab"
 import Tabs from "react-bootstrap/Tabs"
 
 export default function TextContent(props) {
-	console.log(props)
 	const eleEntities = props?.entities?.map((entity, i) => {
 		return (
 			<Tab eventKey={entity.matchedText + i} title={entity.matchedText} key={i}>
