@@ -1,4 +1,12 @@
+import { useState, useEffect } from "react"
+
+import localStorageFunctions from "../data/localStorageFunctions"
+import StringPieGraph from "../components/StringPieGraph"
+
 import {
+	BarChart,
+	Legend,
+	Bar,
 	ResponsiveContainer,
 	AreaChart,
 	ReferenceLine,
@@ -11,17 +19,20 @@ import {
 	Tooltip,
 } from "recharts"
 
+import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 
 export default function Graphs() {
-	/* const data = [
-		{ name: "Page A", uv: 400, pv: 2400, amt: 2400 },
-		{ name: "Page B", uv: 210, pv: 1000, amt: 2400 },
-		{ name: "Page c", uv: 325, pv: 2400, amt: 2400 },
-	] */
+	const { loadFromLocalStorage } = localStorageFunctions()
+	let [resData, setResData] = useState()
 
-	const data = [
+	useEffect(() => {
+		setResData(loadFromLocalStorage("LS_TextRazor_Temp"))
+	}, [])
+
+	if (!resData?.length > 0) return
+	/* const data = [
 		{
 			name: "Page A",
 			uv: 4000,
@@ -64,27 +75,41 @@ export default function Graphs() {
 			pv: 4300,
 			amt: 2100,
 		},
-	]
+	] */
 	return (
 		<main style={{ padding: "1rem 0" }}>
-			<h2>Graphs</h2>
-			{console.log(data)}
+			{/* 	{console.log(data)} */}
 
-			<Row>
-				<Col className={"w-100 h-100"}>
+			<Container fluid="md" className="my-3">
+				<Row className="row-cols-1 row-cols-md-2">
+					<Col>
+						<StringPieGraph name={"Word stats"} data={textStats(resData, "wordStats")} />
+					</Col>
+					<hr className={"mt-4 mb-3 d-block d-md-none"} />
+					<Col>
+						<StringPieGraph
+							name={"String stats"}
+							data={textStats(resData, "stringStats")}
+						/>
+					</Col>
+				</Row>
+			</Container>
+
+			{/* <Row>
+				<Col>
 					<ResponsiveContainer width="99%" height={400}>
-						<AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-							<XAxis dataKey="name" />
+						<BarChart data={data}>
+							<CartesianGrid strokeDasharray="2 3" />
+
 							<YAxis />
-							<CartesianGrid strokeDasharray="3 3" />
 							<Tooltip />
-							<ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
-							<ReferenceLine y={4000} label="Max" stroke="red" strokeDasharray="3 3" />
-							<Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-						</AreaChart>
+							<Legend />
+							<Bar dataKey="pv" fill="#8884d8" />
+							<Bar dataKey="uv" fill="#82ca9d" />
+						</BarChart>
 					</ResponsiveContainer>
 				</Col>
-			</Row>
+			</Row> */}
 
 			{/* <LineChart
 				width={660}
@@ -100,4 +125,55 @@ export default function Graphs() {
 			</LineChart> */}
 		</main>
 	)
+}
+
+function textStats(resData, retFce) {
+	const stringsCount = resData?.length ?? 0
+
+	const mergedStrings = resData
+		.map((item) => item.origText)
+		.join(", ")
+		.replace(/[^a-zA-Z\s]+/g, "")
+		.replace(/\s\s+/g, " ")
+		.split(" ")
+
+	const entitiesCountPerString = resData.map((item) =>
+		item.entities ? item.entities.length : 0
+	)
+
+	const stringsWithEntities = entitiesCountPerString.reduce(
+		(acc, cur) => (cur ? acc + 1 : acc),
+		0
+	)
+
+	const entitiesCount = entitiesCountPerString.reduce((acc, cur) => acc + cur, 0)
+
+	function wordStats() {
+		const a1 = new Data(
+			"Words not identified as entity",
+			mergedStrings.length - entitiesCount
+		)
+		const a2 = new Data("Entities detected", entitiesCount)
+
+		const b = new Data("Words analyzed", mergedStrings.length)
+		return { data01: [a1, a2], data02: [b] }
+	}
+
+	function stringStats() {
+		const a1 = new Data("Texts without entity", stringsCount - stringsWithEntities)
+		const a2 = new Data("Texts containing entity", stringsWithEntities)
+
+		const b = new Data("Texts analyzed", stringsCount)
+		return { data01: [a1, a2], data02: [b] }
+	}
+
+	function Data(name, value) {
+		this.name = name
+		this.value = value
+	}
+
+	if (retFce === "wordStats") return wordStats()
+	if (retFce === "stringStats") return stringStats()
+
+	return [wordStats, stringStats]
 }

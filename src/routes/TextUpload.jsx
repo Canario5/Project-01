@@ -6,14 +6,13 @@ import apiData from "../api/api"
 import localStorageFunctions from "../data/localStorageFunctions"
 
 import "./TextUpload.css"
-/* import { Button } from "react-bootstrap" */
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 
 export default function TextUpload() {
-	const [saveToLocalStorage, removeLocalStorage, loadFromLocalStorage] =
+	const { saveToLocalStorage, removeLocalStorage, loadFromLocalStorage } =
 		localStorageFunctions()
 	const [formText, setFormText] = useState()
 	const [responseText, setResponseText] = useState()
@@ -40,6 +39,7 @@ export default function TextUpload() {
 		if (!responseText) return
 		const value = Math.ceil(responseText.length / itemsPerPage)
 		setNrPages(value)
+		saveToLocalStorage(responseText, "LS_TextRazor_Temp")
 	}, [responseText])
 
 	async function getData(formData) {
@@ -121,6 +121,7 @@ export default function TextUpload() {
 
 	return (
 		<div className="App">
+			{console.log(responseText)}
 			<Form.Group
 				/* onChange={inputForm} */
 
@@ -151,10 +152,16 @@ export default function TextUpload() {
 					Loading Please wait...
 				</Row>
 			</Form.Group>
-			<Button variant="success" onClick={() => saveToLocalStorage(responseText)}>
+			<Button
+				variant="success"
+				onClick={() => saveToLocalStorage(responseText, "LS_TextRazor_Texts")}
+			>
 				Save to local storage
 			</Button>{" "}
-			<Button variant="info" onClick={() => setResponseText(loadFromLocalStorage)}>
+			<Button
+				variant="info"
+				onClick={() => setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
+			>
 				Load from local storage
 			</Button>{" "}
 			<Button variant="warning" onClick={() => removeLocalStorage()}>
@@ -165,6 +172,9 @@ export default function TextUpload() {
 				onClick={() => console.log(JSON.parse(localStorage?.getItem("LS_TextRazor_Texts")))}
 			>
 				console LS
+			</Button>{" "}
+			<Button variant="dark" onClick={() => "" /* totalWords(responseText) */}>
+				test
 			</Button>
 			<div>{elem}</div>
 			{nrPages && (
