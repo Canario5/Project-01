@@ -8,7 +8,7 @@ div.card {
 }
 
 .nav-tabs {
-	background-color: #ab87ff;
+	background-color: #1f86df;
 	border-radius: 10px 0 0;
 }
 
@@ -24,13 +24,13 @@ div.card {
 .nav-tabs > li:first-of-type {
 	background-color: #505050;
 	border-radius: 6px 0 0;
-	-webkit-box-shadow: inset -7px 0px 0px 0px #7fff00;
-	box-shadow: inset -7px 0px 0px 0px #7fff00;
+	-webkit-box-shadow: inset -7px 0px 0px 0px white;
+	box-shadow: inset -7px 0px 0px 0px white;
 }
 
 .nav-tabs > li:nth-of-type(2) > .active {
-	-webkit-box-shadow: -7px 0px 0px 0px #ab87ff, inset 0px -5px 0px 0px #fa0f9c;
-	box-shadow: -7px 0px 0px 0px #ab87ff, inset 0px -5px 0px 0px #fa0f9c;
+	-webkit-box-shadow: -7px 0px 0px 0px #1f86df, inset 0px -5px 0px 0px #fa0f9c;
+	box-shadow: -7px 0px 0px 0px #1f86df, inset 0px -5px 0px 0px #fa0f9c;
 }
 
 .nav-tabs > li:first-of-type button {
@@ -39,7 +39,8 @@ div.card {
 
 .nav-tabs > li > button {
 	color: white;
-	transition: box-shadow 0.25s ease-in;
+	border-radius: 0 !important;
+	transition: box-shadow 0.4s ease-in;
 }
 
 .nav-tabs .nav-link.active {

@@ -12,7 +12,11 @@ export default function Menu() {
 				<Container>
 					<LinkContainer to="/">
 						<Navbar.Brand className="py-0">
-							<div className="pt-2 px-4 text-light" style={{ paddingBottom: "0.65rem" }}>
+							<div
+								className="pt-2 px-4 text-light"
+								style={{ paddingBottom: "0.65rem" }}
+								id="logoBrand"
+							>
 								Company
 							</div>
 						</Navbar.Brand>
@@ -23,6 +27,7 @@ export default function Menu() {
 							<LinkContainer to="/">
 								<Nav.Link>Load text</Nav.Link>
 							</LinkContainer>
+
 							{/* <LinkContainer to="/texts">
 								<Nav.Link>Texts</Nav.Link>
 							</LinkContainer> */}
@@ -30,6 +35,7 @@ export default function Menu() {
 							<LinkContainer to="/graphs">
 								<Nav.Link>Graphs</Nav.Link>
 							</LinkContainer>
+
 							<LinkContainer to="/third">
 								<Nav.Link>Third</Nav.Link>
 							</LinkContainer>
