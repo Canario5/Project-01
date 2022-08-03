@@ -18,7 +18,7 @@ export default async function apiData(formData) {
 			redirect: "follow",
 		}
 
-		const res = await fetch("https://api.textrazor.com", requestOptions)
+		const res = await fetch("/api/", requestOptions)
 
 		if (res.status === 413)
 			console.log(`The request was too large (Up to 200kb may be processed per request).`)
