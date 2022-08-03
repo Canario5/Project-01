@@ -1,25 +1,7 @@
-import {
-	PieChart,
-	Pie,
-	Cell,
-	BarChart,
-	Legend,
-	Bar,
-	ResponsiveContainer,
-	AreaChart,
-	ReferenceLine,
-	Area,
-	LineChart,
-	Line,
-	CartesianGrid,
-	XAxis,
-	YAxis,
-	Tooltip,
-} from "recharts"
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from "recharts"
 
 export default function StringPieGraph(props) {
-	if (!props) return
-	console.log(props)
+	if (!props.data) return
 
 	const { data01, data02 } = props.data
 
@@ -29,18 +11,23 @@ export default function StringPieGraph(props) {
 	return (
 		<>
 			<h2 className={"mb-0"}>{props.name}</h2>
-			<ResponsiveContainer width={"99%"} height={340}>
-				<PieChart width={730} height={250}>
+			<ResponsiveContainer width={"100%"} height={340}>
+				<PieChart>
 					<Pie
 						data={data02}
 						dataKey="value"
 						nameKey="name"
 						cx="50%"
 						cy="50%"
-						innerRadius={110}
-						outerRadius={115}
-						fill="#82ca9d"
-						label
+						innerRadius={104}
+						outerRadius={110}
+						label={{
+							position: "top",
+							fontSize: 18,
+							fontWeight: "bold",
+							dx: -10,
+							dy: 10,
+						}}
 					>
 						{data02.map((_item, i) => (
 							<Cell key={`cell-${i}`} fill={colorsOut[i]} />
@@ -53,8 +40,7 @@ export default function StringPieGraph(props) {
 						cx="50%"
 						cy="50%"
 						innerRadius={25}
-						outerRadius={110}
-						fill="#82ca9d"
+						outerRadius={105}
 						label
 					>
 						{data01.map((_item, i) => (
