@@ -23,7 +23,7 @@ export default function Graphs() {
 	return (
 		<main style={{ padding: "1rem 0" }}>
 			<Row
-				style={{ display: loadFromSessionStorage("SS_TextRazor_Temp") ? "block" : "block" }}
+				style={{ display: loadFromSessionStorage("SS_TextRazor_Temp") ? "none" : "" }}
 				xs="auto"
 				className="justify-content-center align-items-center"
 			>
