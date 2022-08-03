@@ -24,5 +24,7 @@ export default function typeStats(resData) {
 
 	const outputTop = topTypes.map((item) => new DataGen(item[0], item[1]))
 
+	if (!outputTop) return
+
 	return { data01: [...outputTop, new DataGen("Other", restOfTypesCount)] }
 }
