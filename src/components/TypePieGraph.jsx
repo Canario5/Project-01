@@ -2,6 +2,7 @@ import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from "recha
 
 export default function TypePieGraph(props) {
 	if (!props.data) return
+	console.log(props.data)
 
 	const { data01 } = props.data
 
