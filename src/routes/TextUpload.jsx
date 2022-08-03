@@ -3,43 +3,49 @@ import { useState, useRef, useEffect } from "react"
 import TextContent from "../components/TextContent"
 import PaginationBar from "../components/PaginationBar"
 import apiData from "../api/api"
-import localStorageFunctions from "../data/localStorageFunctions"
+import storageFunctions from "../data/storageFunctions"
 
-import "./TextUpload.css"
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
+import Container from "react-bootstrap/Container"
+
+import "./TextUpload.css"
 
 export default function TextUpload() {
-	const { saveToLocalStorage, removeLocalStorage, loadFromLocalStorage } =
-		localStorageFunctions()
+	const {
+		saveToLocalStorage,
+		removeLocalStorage,
+		loadFromLocalStorage,
+		saveToSessionStorage,
+		loadFromSessionStorage,
+	} = storageFunctions()
+
 	const [formText, setFormText] = useState()
 	const [responseText, setResponseText] = useState()
 	const fileRef = useRef()
 	const [isLoading, setIsLoading] = useState(false)
 
 	const [currentPage, setCurrentPage] = useState(1)
+	const [nrPages, setNrPages] = useState()
 	const itemsPerPage = 10
 	const indexOfLastItem = currentPage * itemsPerPage
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage
-	const [nrPages, setNrPages] = useState()
 
 	useEffect(() => {
-		console.log("useEffect #1")
-		if (formText)
-			getData(formText).then((apiData) => {
-				setResponseText(apiData)
-				setIsLoading(false)
-			})
+		if (!formText) return
+		getData(formText).then((apiData) => {
+			setResponseText(apiData)
+			setIsLoading(false)
+		})
 	}, [formText])
 
 	useEffect(() => {
-		console.log("useEffect #2")
 		if (!responseText) return
 		const value = Math.ceil(responseText.length / itemsPerPage)
 		setNrPages(value)
-		saveToLocalStorage(responseText, "LS_TextRazor_Temp")
+		saveToSessionStorage(responseText, "SS_TextRazor_Temp")
 	}, [responseText])
 
 	async function getData(formData) {
@@ -48,12 +54,11 @@ export default function TextUpload() {
 			const returnedData = await apiData(textRow)
 			data = [...data, { origText: textRow, pos: i, entities: returnedData }]
 		}
-		console.log(data)
 		return data
 	}
 
 	async function inputForm() {
-		const textData = await fileRef?.current?.files[0]?.text()
+		const textData = await fileRef.current?.files[0]?.text()
 		if (!textData) return
 		const splitPerRow = await textData.split("\n")
 		setFormText(splitPerRow)
@@ -90,7 +95,9 @@ export default function TextUpload() {
 					const insert = (
 						<span
 							className="highlight"
-							title={`${entity?.type?.join(", ") ?? "No category found"}`}
+							title={`Entity: ${entity?.entityId ?? entity?.matchedText} \nType: ${
+								entity?.type?.join(", ") ?? "No type found"
+							}`}
 							key={i}
 						>
 							{matchedText}
@@ -121,21 +128,13 @@ export default function TextUpload() {
 
 	return (
 		<div className="App">
-			{console.log(responseText)}
-			<Form.Group
-				/* onChange={inputForm} */
-
-				controlId="formFile"
-				className="col-sm-9 col-md-7 col-lg-6 my-4 mx-auto"
-			>
+			<Form.Group controlId="formFile" className="col-sm-9 col-md-7 col-lg-6 my-4 mx-auto">
 				<Form.Label>Upload your text file:</Form.Label>
 				<Form.Control
 					onContextMenu={clearInput}
 					title={"Right click to clear"}
 					type="file"
 					ref={fileRef}
-					className=""
-					/* as="textarea" */
 				/>
 				<Form.Text className="text-muted">
 					The largest file that may be handled per request is 200 kilobytes.
@@ -152,30 +151,45 @@ export default function TextUpload() {
 					Loading Please wait...
 				</Row>
 			</Form.Group>
-			<Button
-				variant="success"
-				onClick={() => saveToLocalStorage(responseText, "LS_TextRazor_Texts")}
+
+			<Container
+				style={{
+					display:
+						loadFromLocalStorage("LS_TextRazor_Texts") ||
+						loadFromSessionStorage("SS_TextRazor_Temp")
+							? ""
+							: "none",
+				}}
+				className="my-3"
 			>
-				Save to local storage
-			</Button>{" "}
-			<Button
-				variant="info"
-				onClick={() => setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
-			>
-				Load from local storage
-			</Button>{" "}
-			<Button variant="warning" onClick={() => removeLocalStorage()}>
-				Delete local storage
-			</Button>{" "}
-			<Button
-				variant="secondary"
-				onClick={() => console.log(JSON.parse(localStorage?.getItem("LS_TextRazor_Texts")))}
-			>
-				console LS
-			</Button>{" "}
-			<Button variant="dark" onClick={() => "" /* totalWords(responseText) */}>
-				test
-			</Button>
+				<Button
+					className="m-1"
+					variant="success"
+					title="Save data to your local storage to save api calls."
+					onClick={() => saveToLocalStorage(responseText, "LS_TextRazor_Texts")}
+				>
+					Save to local storage
+				</Button>
+				<Button
+					className="m-1"
+					variant="info"
+					title="Load your saved data instead api call."
+					onClick={() => setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
+				>
+					Load from local storage
+				</Button>
+				<Button className="m-1" variant="warning" onClick={() => removeLocalStorage()}>
+					Delete local storage
+				</Button>
+				<Button
+					className="m-1"
+					variant="secondary"
+					onClick={() => console.log(loadFromLocalStorage("LS_TextRazor_Texts"))}
+				>
+					console.log LS
+				</Button>
+			</Container>
+
 			<div>{elem}</div>
 			{nrPages && (
 				<PaginationBar
