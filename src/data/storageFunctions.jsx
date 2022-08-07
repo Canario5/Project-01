@@ -11,19 +11,9 @@ export default function storageFunctions() {
 		return JSON.parse(localStorage.getItem(storageString))
 	}
 
-	function saveToSessionStorage(data, storageString) {
-		sessionStorage.setItem(storageString, JSON.stringify(data))
-	}
-
-	function loadFromSessionStorage(storageString) {
-		return JSON.parse(sessionStorage.getItem(storageString))
-	}
-
 	return {
 		saveToLocalStorage,
 		removeLocalStorage,
 		loadFromLocalStorage,
-		saveToSessionStorage,
-		loadFromSessionStorage,
 	}
 }
