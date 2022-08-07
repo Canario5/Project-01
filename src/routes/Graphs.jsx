@@ -1,6 +1,3 @@
-import { useState, useEffect } from "react"
-
-import storageFunctions from "../data/storageFunctions"
 import textStats from "../data/textStats"
 import typeStats from "../data/typeStats"
 import StringPieGraph from "../components/StringPieGraph"

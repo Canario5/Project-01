@@ -1,5 +1,3 @@
-import { useEffect } from "react"
-
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
@@ -8,40 +6,9 @@ import { Outlet } from "react-router-dom"
 import { LinkContainer } from "react-router-bootstrap"
 
 export default function Menu() {
-	function garg2() {
-		document
-			.getElementById("main-menu")
-			?.querySelector(".active")
-			?.classList.remove("active")
-
-		console.log("clickity")
-		console.log(document.querySelector(".active"))
-	}
-
-	useEffect(() => {
-		/* document.getElementById("logoBrand").addEventListener("click", () => {
-			document
-				.getElementById("main-menu")
-				.querySelector(".nav-link .active")
-				?.classList.remove("active")
-		}) */
-		/* console.log("clickity")
-		console.log(document.querySelector(".nav-link .active")) */
-	})
-
-	/* function garg(e) {
-		if (e.target.classList.contains("active")) {
-			console.log(e)
-			e.target?.classList.remove("active")
-		}
-
-		console.log("clickity")
-		console.log(document.getElementById("main-menu").querySelector(".active"))
-	} */
-
 	return (
 		<>
-			<Navbar /* bg="light" */ expand="lg" className="p-0 my-3">
+			<Navbar expand="lg" className="p-0 my-3">
 				<Container>
 					<LinkContainer to="/">
 						<Navbar.Brand className="py-0">
