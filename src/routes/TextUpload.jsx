@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react"
 
 import TextContent from "../components/TextContent"
+import StorageButtons from "../components/StorageButtons"
 import PaginationBar from "../components/PaginationBar"
 import apiData from "../api/api"
-import storageFunctions from "../data/storageFunctions"
 
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
@@ -15,11 +15,8 @@ import "./TextUpload.css"
 
 export default function TextUpload(props) {
 	console.log(props)
-	const { saveToLocalStorage, removeLocalStorage, loadFromLocalStorage } =
-		storageFunctions()
 
 	const [formText, setFormText] = useState()
-	/* const [responseText, setResponseText] = useState() */
 	const fileRef = useRef()
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -149,42 +146,13 @@ export default function TextUpload(props) {
 				</Row>
 			</Form.Group>
 
-			<Container
-				style={{
-					display:
-						loadFromLocalStorage("LS_TextRazor_Texts") || props.responseText ? "" : "none",
-				}}
-				className="my-3"
-			>
-				<Button
-					className="m-1"
-					variant="success"
-					title="Save data to your local storage to save api calls."
-					onClick={() => saveToLocalStorage(props.responseText, "LS_TextRazor_Texts")}
-				>
-					Save to local storage
-				</Button>
-				<Button
-					className="m-1"
-					variant="info"
-					title="Load your saved data instead api call."
-					onClick={() => props.setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
-				>
-					Load from local storage
-				</Button>
-				<Button className="m-1" variant="warning" onClick={() => removeLocalStorage()}>
-					Delete local storage
-				</Button>
-				<Button
-					className="m-1"
-					variant="secondary"
-					onClick={() => console.log(loadFromLocalStorage("LS_TextRazor_Texts"))}
-				>
-					console.log LS
-				</Button>
-			</Container>
+			<StorageButtons
+				responseText={props.responseText}
+				setResponseText={props.setResponseText}
+			/>
 
-			<div>{elem}</div>
+			{elem}
+
 			{nrPages && (
 				<PaginationBar
 					nrPages={nrPages}
