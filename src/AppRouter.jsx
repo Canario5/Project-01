@@ -10,26 +10,21 @@ export default function AppRouter() {
 	const [responseText, setResponseText] = useState()
 	return (
 		<BrowserRouter>
+			<Menu />
 			<Routes>
-				<Route path="" element={<Menu />}>
-					<Route
-						path="/"
-						element={
-							<TextUpload responseText={responseText} setResponseText={setResponseText} />
-						}
-					/>
-					<Route path="graphs" element={<Graphs responseText={responseText} />} />
-					{/* <Route path="texts" element={<Texts />} /> */}
+				{/* prettier-ignore */}
+				<Route path="/"	element={<TextUpload responseText={responseText} setResponseText={setResponseText} />}/>
+				<Route path="graphs" element={<Graphs responseText={responseText} />} />
+				{/* <Route path="texts" element={<Texts />} /> */}
 
-					<Route
-						path="*"
-						element={
-							<main style={{ padding: "1rem" }}>
-								<p>There's nothing here!</p>
-							</main>
-						}
-					/>
-				</Route>
+				<Route
+					path="*"
+					element={
+						<main style={{ padding: "1rem" }}>
+							<p>There's nothing here!</p>
+						</main>
+					}
+				/>
 			</Routes>
 		</BrowserRouter>
 	)

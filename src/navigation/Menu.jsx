@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
@@ -6,6 +8,37 @@ import { Outlet } from "react-router-dom"
 import { LinkContainer } from "react-router-bootstrap"
 
 export default function Menu() {
+	function garg2() {
+		document
+			.getElementById("main-menu")
+			?.querySelector(".active")
+			?.classList.remove("active")
+
+		console.log("clickity")
+		console.log(document.querySelector(".active"))
+	}
+
+	useEffect(() => {
+		/* document.getElementById("logoBrand").addEventListener("click", () => {
+			document
+				.getElementById("main-menu")
+				.querySelector(".nav-link .active")
+				?.classList.remove("active")
+		}) */
+		/* console.log("clickity")
+		console.log(document.querySelector(".nav-link .active")) */
+	})
+
+	/* function garg(e) {
+		if (e.target.classList.contains("active")) {
+			console.log(e)
+			e.target?.classList.remove("active")
+		}
+
+		console.log("clickity")
+		console.log(document.getElementById("main-menu").querySelector(".active"))
+	} */
+
 	return (
 		<>
 			<Navbar /* bg="light" */ expand="lg" className="p-0 my-3">
@@ -21,9 +54,10 @@ export default function Menu() {
 							</div>
 						</Navbar.Brand>
 					</LinkContainer>
+
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
-						<Nav className="me-auto mt-2 mt-lg-0">
+						<Nav id="main-menu" className="me-auto mt-2 mt-lg-0">
 							<LinkContainer to="/">
 								<Nav.Link>Load text</Nav.Link>
 							</LinkContainer>
@@ -32,14 +66,14 @@ export default function Menu() {
 								<Nav.Link>Texts</Nav.Link>
 							</LinkContainer> */}
 
-							<LinkContainer to="/graphs">
+							<LinkContainer active={false} to="/graphs">
 								<Nav.Link>Graphs</Nav.Link>
 							</LinkContainer>
 
-							<LinkContainer to="/third">
+							<LinkContainer active={false} to="/third">
 								<Nav.Link>Third</Nav.Link>
 							</LinkContainer>
-							<LinkContainer to="/fourth">
+							<LinkContainer active={false} to="/fourth">
 								<Nav.Link>Fourth</Nav.Link>
 							</LinkContainer>
 						</Nav>
