@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import Menu from "./navigation/Menu"
@@ -6,12 +7,18 @@ import Graphs from "./routes/Graphs"
 /* import Texts from "./routes/Texts" */
 
 export default function AppRouter() {
+	const [responseText, setResponseText] = useState()
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="" element={<Menu />}>
-					<Route path="/" element={<TextUpload />} />
-					<Route path="graphs" element={<Graphs />} />
+					<Route
+						path="/"
+						element={
+							<TextUpload responseText={responseText} setResponseText={setResponseText} />
+						}
+					/>
+					<Route path="graphs" element={<Graphs responseText={responseText} />} />
 					{/* <Route path="texts" element={<Texts />} /> */}
 
 					<Route

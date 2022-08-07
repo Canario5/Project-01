@@ -13,17 +13,13 @@ import Container from "react-bootstrap/Container"
 
 import "./TextUpload.css"
 
-export default function TextUpload() {
-	const {
-		saveToLocalStorage,
-		removeLocalStorage,
-		loadFromLocalStorage,
-		saveToSessionStorage,
-		loadFromSessionStorage,
-	} = storageFunctions()
+export default function TextUpload(props) {
+	console.log(props)
+	const { saveToLocalStorage, removeLocalStorage, loadFromLocalStorage } =
+		storageFunctions()
 
 	const [formText, setFormText] = useState()
-	const [responseText, setResponseText] = useState()
+	/* const [responseText, setResponseText] = useState() */
 	const fileRef = useRef()
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -34,19 +30,20 @@ export default function TextUpload() {
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage
 
 	useEffect(() => {
+		console.log("useEffect #1")
 		if (!formText) return
 		getData(formText).then((apiData) => {
-			setResponseText(apiData)
+			props.setResponseText(apiData)
 			setIsLoading(false)
 		})
 	}, [formText])
 
 	useEffect(() => {
-		if (!responseText) return
-		const value = Math.ceil(responseText.length / itemsPerPage)
+		console.log("useEffect #2")
+		if (!props.responseText) return
+		const value = Math.ceil(props.responseText.length / itemsPerPage)
 		setNrPages(value)
-		saveToSessionStorage(responseText, "SS_TextRazor_Temp")
-	}, [responseText])
+	}, [props.responseText])
 
 	async function getData(formData) {
 		let data = []
@@ -75,9 +72,9 @@ export default function TextUpload() {
 	}
 
 	function genEle() {
-		if (!responseText) return
+		if (!props.responseText) return
 
-		const currentRange = responseText.slice(indexOfFirstItem, indexOfLastItem)
+		const currentRange = props.responseText.slice(indexOfFirstItem, indexOfLastItem)
 
 		return currentRange?.map((item, i) => {
 			const { entities, origText, pos } = item
@@ -155,10 +152,7 @@ export default function TextUpload() {
 			<Container
 				style={{
 					display:
-						loadFromLocalStorage("LS_TextRazor_Texts") ||
-						loadFromSessionStorage("SS_TextRazor_Temp")
-							? ""
-							: "none",
+						loadFromLocalStorage("LS_TextRazor_Texts") || props.responseText ? "" : "none",
 				}}
 				className="my-3"
 			>
@@ -166,7 +160,7 @@ export default function TextUpload() {
 					className="m-1"
 					variant="success"
 					title="Save data to your local storage to save api calls."
-					onClick={() => saveToLocalStorage(responseText, "LS_TextRazor_Texts")}
+					onClick={() => saveToLocalStorage(props.responseText, "LS_TextRazor_Texts")}
 				>
 					Save to local storage
 				</Button>
@@ -174,7 +168,7 @@ export default function TextUpload() {
 					className="m-1"
 					variant="info"
 					title="Load your saved data instead api call."
-					onClick={() => setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
+					onClick={() => props.setResponseText(loadFromLocalStorage("LS_TextRazor_Texts"))}
 				>
 					Load from local storage
 				</Button>
