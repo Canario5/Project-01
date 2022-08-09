@@ -40,6 +40,7 @@ export default function TextUpload(props) {
 		if (!props.responseText) return
 		const value = Math.ceil(props.responseText.length / itemsPerPage)
 		setNrPages(value)
+		setCurrentPage(1)
 	}, [props.responseText])
 
 	async function getData(formData) {
@@ -103,14 +104,14 @@ export default function TextUpload(props) {
 					highlights = i === entities.length - 1 ? [tempText, ...merged] : merged
 					return entity
 				})
-				.sort((a, b) => a.startingPos - b.startingPos)
+				.reverse()
 
 			return (
 				<TextContent
 					content={highlights}
 					entities={sortedEntities}
 					elePos={pos + 1}
-					key={i}
+					key={pos}
 				></TextContent>
 			)
 		})
