@@ -4,7 +4,6 @@ div.card {
 	--bs-card-border-color: #d3d9d6;
 	--bs-card-border-width: 4px;
 	box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 25%);
-	/* box-shadow: 2px 3px 6px 1px rgb(0 0 0 / 25%); */
 }
 
 .nav-tabs {
@@ -24,8 +23,8 @@ div.card {
 .nav-tabs > li:first-of-type {
 	background-color: #505050;
 	border-radius: 6px 0 0;
-	-webkit-box-shadow: inset -7px 0px 0px 0px white;
-	box-shadow: inset -7px 0px 0px 0px white;
+	-webkit-box-shadow: inset -7px 0px 0px 0px #fa0f9c;
+	box-shadow: inset -7px 0px 0px 0px #fa0f9c;
 }
 
 .nav-tabs > li:nth-of-type(2) > .active {
@@ -59,12 +58,11 @@ div.card {
 	transition: box-shadow 0.25s 0.05s ease-out;
 }
 
-#uncontrolled-tab-example-tab-disabledNo\ match {
+#uncontrolled-tab-example-tab-disabledNo\ entity\ found {
 	color: #d3d9d6;
 }
 
 .highlight {
-	/* background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 51%, #56ab2f 100%); */
 	background-image: linear-gradient(to right, #5dc12f 0%, #82ff05 51%, #5dc12f 100%);
 	border-radius: 5px;
 	padding: 0px 5px 2px;

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react"
 
 import TextContent from "../components/TextContent"
 import StorageButtons from "../components/StorageButtons"
+import HighlightInsert from "../components/HighlightInsert"
 import PaginationBar from "../components/PaginationBar"
 import apiData from "../api/api"
 
@@ -9,7 +10,6 @@ import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
-import Container from "react-bootstrap/Container"
 
 import "./TextUpload.css"
 
@@ -63,20 +63,21 @@ export default function TextUpload(props) {
 		if (event.type === "contextmenu") {
 			event.preventDefault()
 			fileRef.current.value = null
-			setCurrentPage(1)
-			setNrPages(null)
 		}
 	}
 
 	function genEle() {
+		console.log("ayay")
 		if (!props.responseText) return
+		console.log("bayay")
 
-		const currentRange = props.responseText.slice(indexOfFirstItem, indexOfLastItem)
+		const currentRange = props.responseText?.slice(indexOfFirstItem, indexOfLastItem)
 
 		return currentRange?.map((item, i) => {
 			const { entities, origText, pos } = item
-			if (!entities)
+			if (!entities) {
 				return <TextContent content={origText} elePos={pos + 1} key={i}></TextContent>
+			}
 
 			let tempText = origText
 			let highlights = ``
@@ -84,18 +85,15 @@ export default function TextUpload(props) {
 			const sortedEntities = entities
 				.sort((a, b) => b.startingPos - a.startingPos)
 				.map((entity, i) => {
-					const { startingPos, endingPos, matchedText } = entity
+					const { startingPos, endingPos, entityId, matchedText, type } = entity
 
 					const insert = (
-						<span
-							className="highlight"
-							title={`Entity: ${entity?.entityId ?? entity?.matchedText} \nType: ${
-								entity?.type?.join(", ") ?? "No type found"
-							}`}
-							key={i}
-						>
-							{matchedText}
-						</span>
+						<HighlightInsert
+							entityId={entityId}
+							matchedText={matchedText}
+							type={type}
+							key={matchedText + i}
+						/>
 					)
 
 					const afterString = tempText.slice(endingPos)
