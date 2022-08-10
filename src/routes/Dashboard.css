@@ -1,0 +1,99 @@
+:root {
+	--white: #ffffff;
+}
+
+.dash-container {
+	border-radius: 12px 12px 0 0;
+	box-shadow: 1px 2px 3px 0px rgb(58 58 71 / 25%);
+	-webkit-box-shadow: 1px 2px 3px 0px rgb(53 58 71 / 25%);
+	-moz-box-shadow: 1px 2px 3px 0px rgba(53, 58, 71, 0.25);
+}
+
+.side-menu {
+	min-height: 80vh;
+	padding: 8rem 0;
+	color: var(--white);
+	background-color: #353a47;
+	box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 25%);
+	border-radius: 10px 0 0 0;
+}
+
+.side-menu .row {
+	justify-content: center;
+	margin: 0 0.2rem;
+	margin-bottom: 1rem;
+	padding-bottom: 0.2rem;
+	font-size: 1.15rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: 0.25s ease-in;
+}
+
+.side-menu .row:hover {
+	color: #7fff00;
+	transition: 0.35s 0.05s ease-out;
+	box-shadow: inset 0px -4px 0px -2px #7fff00;
+}
+
+div.dash-main {
+	background: #e8eaee;
+	background: linear-gradient(to top, #ebedee, #a5b1bb38);
+	padding: 0;
+}
+
+.dash-headline {
+	background: rgb(250, 15, 156);
+	background: linear-gradient(0deg, rgb(199 75 130) 0%, rgba(250, 15, 156, 1) 100%);
+	color: var(--white);
+	min-height: 6rem;
+	z-index: -10;
+	display: flex;
+	justify-content: flex-end;
+	border-radius: 0 10px 0 0;
+	box-shadow: 1px 2px 4px 0px rgb(211 103 150 / 75%);
+	-webkit-box-shadow: 1px 2px 4px 0px rgb(211 103 150 / 75%);
+	-moz-box-shadow: 1px 2px 4px 0px rgba(211, 103, 150, 0.75);
+}
+
+.dash-headline div {
+	margin: 0.75rem 2rem;
+	cursor: pointer;
+}
+
+.dash-box {
+	position: relative;
+	top: -2.5rem;
+	margin-bottom: -2rem;
+	background-color: var(--white);
+	width: 15vw;
+	max-width: 240px;
+	height: 9vh;
+	border-radius: 12px;
+
+	box-shadow: 0px 0px 2px 1px rgb(99 99 99 / 25%);
+	-webkit-box-shadow: 0px 0px 2px 1px rgb(99 99 99 / 25%);
+	-moz-box-shadow: 0px 0px 2px 1px rgba(99, 99, 99, 0.25);
+	transition: 0.2s ease-in;
+}
+
+.dash-box:hover {
+	box-shadow: 0px 2px 4px 1px rgb(99 99 99 / 35%);
+	-webkit-box-shadow: 0px 2px 4px 1px rgb(99 99 99 / 35%);
+	-moz-box-shadow: 0px 2px 4px 1px rgba(99, 99, 99, 0.35);
+	transform: scale(1.1);
+	transition: 0.35s 0.05s ease-out;
+}
+
+.dash-box h5 {
+	color: #353a47;
+}
+
+.box-count {
+	color: #ffbb28;
+	font-size: 1.5rem;
+	font-weight: 900;
+}
+
+.dash-main .recharts-default-legend {
+	max-width: 450px;
+}

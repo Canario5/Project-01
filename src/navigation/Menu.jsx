@@ -37,6 +37,10 @@ export default function Menu() {
 								<Nav.Link>Graphs</Nav.Link>
 							</LinkContainer>
 
+							<LinkContainer active={false} to="/dashboard">
+								<Nav.Link>Dashboard</Nav.Link>
+							</LinkContainer>
+
 							<LinkContainer active={false} to="/third">
 								<Nav.Link>Third</Nav.Link>
 							</LinkContainer>
