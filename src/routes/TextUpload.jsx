@@ -14,8 +14,6 @@ import Row from "react-bootstrap/Row"
 import "./TextUpload.css"
 
 export default function TextUpload(props) {
-	console.log(props)
-
 	const [formText, setFormText] = useState()
 	const fileRef = useRef()
 	const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +25,6 @@ export default function TextUpload(props) {
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage
 
 	useEffect(() => {
-		console.log("useEffect #1")
 		if (!formText) return
 		getData(formText).then((apiData) => {
 			props.setResponseText(apiData)
@@ -36,7 +33,6 @@ export default function TextUpload(props) {
 	}, [formText])
 
 	useEffect(() => {
-		console.log("useEffect #2")
 		if (!props.responseText) return
 		const value = Math.ceil(props.responseText.length / itemsPerPage)
 		setNrPages(value)
@@ -68,9 +64,7 @@ export default function TextUpload(props) {
 	}
 
 	function genEle() {
-		console.log("ayay")
 		if (!props.responseText) return
-		console.log("bayay")
 
 		const currentRange = props.responseText?.slice(indexOfFirstItem, indexOfLastItem)
 
