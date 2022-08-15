@@ -18,6 +18,12 @@
 	border-radius: 10px 0 0 0;
 }
 
+@media (max-width: 768px) {
+	.side-menu {
+		min-height: auto;
+	}
+}
+
 .side-menu .row {
 	justify-content: center;
 	margin: 0 0.2rem;
